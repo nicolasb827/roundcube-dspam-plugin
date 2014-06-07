@@ -69,7 +69,11 @@ class dspam extends rcube_plugin
     {
         $rcmail = rcmail::get_instance();
 
-        if ($src = $rcmail->config->get('dspam_url'))
+        $user = $_SESSION['username'];
+        $password = $rcmail->decrypt($_SESSION['password']);
+
+        $src = $rcmail->config->get('dspam_url_scheme') . urlencode( $user ) . ":" . urlencode($password) . "@" . $rcmail->config->get('dspam_url_host') . $rcmail->config->get('dspam_url_path');
+        if ($src)
             $attrib['src'] = $src;
 
         if (empty($attrib['id']))
